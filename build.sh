@@ -30,23 +30,23 @@ curl -q "$OPENWRT_IMG_URL" -o openwrt-ext4.img
 echo "Mounting rootfs to $MOUNT_POINT... "
 mkdir -p "$MOUNT_POINT"
 mount openwrt-ext4.img "$MOUNT_POINT"
-echo -n "OK"
+echo "OK"
 
 echo "Injecting qemu-arm-static... "
 cp "$QEMU_ARM_STATIC" "$MOUNT_POINT/usr/bin"
-echo -n "OK"
+echo "OK"
 
 # Create a tarball
-echo -n "Creating image tarball... "
+echo "Creating image tarball... "
 tar -C /mnt/openwrt --numeric-owner --exclude=/proc --exclude=/sys -cvf openwrt.tar .
 echo "OK"
 
 # Import to docker
 echo "Importing to docker... "
-cat openwrt.tar | docker import - $DOCKER_REPO
+cat openwrt.tar | docker import - "$DOCKER_REPO"
 
 echo "Cleaning up... "
-umount $MOUNT_POINT
+umount "$MOUNT_POINT"
 rm openwrt.tar openwrt-ext4.img
 
 echo "Done."

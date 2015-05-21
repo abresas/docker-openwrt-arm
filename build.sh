@@ -8,6 +8,16 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 fi
 
+if [ -e "openwrt.tar" ]; then
+	echo "Found openwrt.tar, bailing out to avoid overwriting it." 1>&2
+	exit 1
+fi
+
+if [ -e "openwrt-ext4.img" ]; then
+	echo "Found openwrt-ext4.img, bailing out to avoid overwriting it." 1>&2
+	exit 1
+fi
+
 OPENWRT_IMG_URL=https://downloads.openwrt.org/barrier_breaker/14.07/brcm2708/generic/openwrt-brcm2708-ext4.img
 DOCKER_REPO=abresas/openwrt-arm-test
 MOUNT_POINT=/mnt/openwrt
